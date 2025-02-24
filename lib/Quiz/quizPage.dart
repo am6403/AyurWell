@@ -69,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Error"),
+        title: Text("Errors"),
         content: Text(message),
         actions: [
           TextButton(
