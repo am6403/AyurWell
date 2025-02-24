@@ -29,7 +29,7 @@ class DoctorHomePage extends StatelessWidget {
             // This is where you can add a list of upcoming appointments
             const SizedBox(height: 10),
             Text(
-              'You have 3 upcoming appointments today.',
+              'You have upcoming appointments Doctor.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
