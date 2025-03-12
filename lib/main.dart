@@ -4,7 +4,7 @@ import 'package:prakriti_finder/auth/register_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
-WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -16,15 +16,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       title: 'AyurWell',
-      theme: ThemeData(
-        primarySwatch: Colors.blue
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,
       routes: {
+        // Define your routes here
       },
-      home: RegisterPage(showLoginPage: () {  },),
+      home: RegisterPage(
+        showLoginPage: () {},
+      ),
     );
   }
 }

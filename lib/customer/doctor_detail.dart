@@ -18,10 +18,10 @@ class DoctorDetailPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.green[800],
         foregroundColor: Colors.white,
-        title: Text(data['name'],style: TextStyle(color: Colors.white),),
+        title: Text(data['name'], style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.textsms_outlined,color: Colors.white,),
+            icon: const Icon(Icons.textsms_outlined, color: Colors.white),
             onPressed: () async {
               if (user != null) {
                 String chatId = await ChatService().initializeChat(user.uid, doctorDetails.id);
@@ -35,7 +35,7 @@ class DoctorDetailPage extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.call,color: Colors.white,),
+            icon: const Icon(Icons.call, color: Colors.white),
             onPressed: () {
               // Handle call action
             },
@@ -95,6 +95,15 @@ class DoctorDetailPage extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Specialization: ${data['specialization']}',
+                        style: const TextStyle(
+                          color: Color(0xFF4A545E),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -106,15 +115,15 @@ class DoctorDetailPage extends StatelessWidget {
                     _showBookingDialog(context, data['name']);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:  const Color.fromARGB(255, 25, 139, 30),
+                    backgroundColor: const Color.fromARGB(255, 25, 139, 30),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: const Text(
                       'Book Appointment',
-                      style: TextStyle(fontSize: 18,color: Colors.white),
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),
@@ -152,7 +161,6 @@ class DoctorDetailPage extends StatelessWidget {
                     if (selectedDate != null) {
                       dateController.text = "${selectedDate.toLocal()}".split(' ')[0];
                     }
-
                   },
                   readOnly: true,
                 ),

@@ -7,6 +7,7 @@ import 'package:prakriti_finder/common_screens/aboutme.dart';
 import 'package:prakriti_finder/common_screens/faq.dart';
 import 'package:prakriti_finder/components/getuserdetail.dart';
 import 'package:prakriti_finder/components/profile_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Add this import
 
 class DoctorProfile extends StatefulWidget {
   const DoctorProfile({super.key});
@@ -34,6 +35,22 @@ class _DoctorProfileState extends State<DoctorProfile> {
   Future<void> loadProfileImageURL() async {
     profileImageURL = await ImageHandler.loadProfileImageURL(context, 'Doctors');
     setState(() {});
+  }
+
+  Future<void> resetQuizResult(BuildContext context) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+        'dosha': FieldValue.delete(),
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Quiz result has been reset.')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('User not logged in. Please log in to continue.')),
+      );
+    }
   }
 
   @override
@@ -79,11 +96,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: const BorderSide(color:Color.fromARGB(255, 25, 45, 20),), // Dark green border
@@ -114,11 +131,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: const BorderSide(color:Color.fromARGB(255, 25, 45, 20),),
@@ -150,11 +167,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: const BorderSide(color: Color.fromARGB(255, 25, 45, 20),)
@@ -186,11 +203,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: const BorderSide(color: Color.fromARGB(255, 211, 15, 15)), // Red border for logout
@@ -215,6 +232,38 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       style: TextStyle(
                         fontSize: 18,
                         color: Color.fromARGB(255, 212, 19, 19),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                  minimumSize: MaterialStateProperty.all<Size>(
+                    const Size(double.infinity, 50),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: const BorderSide(color: Colors.red), // Red border for reset
+                    ),
+                  ),
+                ),
+                onPressed: () => resetQuizResult(context),
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Reset Quiz Result",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

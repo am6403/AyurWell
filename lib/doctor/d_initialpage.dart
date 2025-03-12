@@ -17,8 +17,8 @@ class _DoctorInitialPageState extends State<DoctorInitialPage> {
   List<Widget> tabs = <Widget>[
     DoctorHomePage(),
     CustomerList(),
-    ManageAppointments(), 
-    const DoctorProfile()
+    ManageAppointments(),
+    const DoctorProfile(),
   ];
 
   @override
