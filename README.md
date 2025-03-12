@@ -1,6 +1,6 @@
-# prakriti_finder
+# AyurWell
 
-PhenoTechType is a mobile application which finds the nature of body (prakriti) based on a questionnaire and give food/dietary solutions based on the nature. Future scope include adding Ayurvedic Centres, Doctor Appointment System and Remedies Delivery System
+AyurWell is a mobile application designed to help users determine their body constitution (prakriti) based on Ayurvedic principles. By answering a series of questions, users can identify their dominant dosha (Kapha, Pitta, or Vata) and receive personalized dietary and exercise recommendations tailored to their specific body type. The app also provides an option to navigate to Ayurvedic doctors for further consultation and guidance. With a user-friendly interface and comprehensive recommendations, Prakriti Finder aims to promote holistic health and well-being through the ancient wisdom of Ayurveda.
 ## Getting Started
 
 UI as of current status
