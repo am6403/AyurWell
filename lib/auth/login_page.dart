@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 187, 221, 188),
+      backgroundColor: const Color.fromARGB(255, 237, 219, 200),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const Icon(Icons.spa, size: 100, color: Colors.green),
                 const SizedBox(height: 20),
-                Text('PrakritiPath',
+                Text('AyurWell',
                     style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,

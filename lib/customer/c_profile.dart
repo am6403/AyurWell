@@ -1,3 +1,5 @@
+
+
 import 'dart:io'; // Ensure this import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +9,8 @@ import 'package:prakriti_finder/common_screens/aboutme.dart';
 import 'package:prakriti_finder/common_screens/faq.dart';
 import 'package:prakriti_finder/components/getuserdetail.dart';
 import 'package:prakriti_finder/components/profile_image.dart';
+import 'package:prakriti_finder/customer/chatbot_page.dart'; // Ensure ChatbotPage is imported
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 
 class CustomerProfile extends StatefulWidget {
   const CustomerProfile({super.key});
@@ -37,6 +41,22 @@ class _CustomerProfileState extends State<CustomerProfile> {
     setState(() {});
   }
 
+  Future<void> resetQuizResult(BuildContext context) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+        'dosha': FieldValue.delete(),
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Quiz result has been reset.')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User not logged in. Please log in to continue.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +74,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                 },
                 child: CircleAvatar(
                   radius: 50,
-                  backgroundColor: Color.fromARGB(255, 30, 88, 60),
+                  backgroundColor: const Color.fromARGB(255, 30, 88, 60),
                   backgroundImage: (imagefile != null)
                       ? FileImage(imagefile!)
                       : (profileImageURL != null
@@ -65,7 +85,6 @@ class _CustomerProfileState extends State<CustomerProfile> {
                           Icons.person,
                           size: 50,
                           color: Color.fromARGB(255, 238, 238, 238),
-                          // Dark green for icon
                         )
                       : null,
                 ),
@@ -82,11 +101,11 @@ class _CustomerProfileState extends State<CustomerProfile> {
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: const BorderSide(
@@ -96,7 +115,10 @@ class _CustomerProfileState extends State<CustomerProfile> {
                   ),
                 ),
                 onPressed: () {
-                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatbotPage()),
+                  );
                 },
                 child: Row(
                   children: const [
@@ -110,8 +132,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(
-                            255, 25, 45, 20), // Dark green for text
+                        color: Color.fromARGB(255, 25, 45, 20),
                       ),
                     ),
                   ],
@@ -120,11 +141,11 @@ class _CustomerProfileState extends State<CustomerProfile> {
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: const BorderSide(
@@ -158,16 +179,17 @@ class _CustomerProfileState extends State<CustomerProfile> {
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        side: const BorderSide(
-                          color: Color.fromARGB(255, 25, 45, 20),
-                        )),
+                      borderRadius: BorderRadius.circular(15),
+                      side: const BorderSide(
+                        color: Color.fromARGB(255, 25, 45, 20),
+                      ),
+                    ),
                   ),
                 ),
                 onPressed: () {
@@ -197,11 +219,46 @@ class _CustomerProfileState extends State<CustomerProfile> {
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      WidgetStateProperty.all<Color>(Colors.white),
-                  minimumSize: WidgetStateProperty.all<Size>(
+                      MaterialStateProperty.all<Color>(Colors.red),
+                  minimumSize: MaterialStateProperty.all<Size>(
                     const Size(double.infinity, 50),
                   ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: const BorderSide(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
+                onPressed: () => resetQuizResult(context),
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Reset Quiz Result",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  minimumSize: MaterialStateProperty.all<Size>(
+                    const Size(double.infinity, 50),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                       side: const BorderSide(

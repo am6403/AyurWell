@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:prakriti_finder/auth/register_page.dart';
+import 'package:prakriti_finder/chatbot_topics_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,
       routes: {
-        // Define your routes here
+        '/register': (context) => RegisterPage(showLoginPage: () {}),
+        '/chatbot': (context) => ChatbotTopicsScreen(), // Add route for chatbot
       },
       home: RegisterPage(
         showLoginPage: () {},
